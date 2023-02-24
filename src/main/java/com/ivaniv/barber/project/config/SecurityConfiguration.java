@@ -27,7 +27,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/public/**")
+                .requestMatchers("/barber-shop/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

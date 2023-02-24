@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${name}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+</head>
+<body>
+
+<header th:insert="~{blocks/header :: header}"/>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <h1>Ласкаво просимо до Barber Shop</h1>
+            <p>Ласкаво просимо до нашої перукарні
+                Ми пропонуємо широкий спектр послуг для догляду за волоссям. Наші досвідчені перукарі мають навички класичних і
+                сучасних стрижок, стрижки бороди та гоління. Ми прагнемо створити комфортну та розслаблюючу атмосферу, де ви
+                зможете розслабитися та обновити свій вигляд.</p>
+        </div>
+    </div>
+</div>
+
+
+<footer th:insert="~{blocks/footer :: footer}"/>
+
+</body>
+</html>
