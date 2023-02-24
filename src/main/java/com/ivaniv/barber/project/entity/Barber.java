@@ -22,11 +22,17 @@ import java.util.List;
 public class Barber implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String email;
     private String password;
+
+    private String aboutMe;
+    private String photos;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="barber")
+    private List<Records> records;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -67,5 +73,11 @@ public class Barber implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (photos == null || id == null) return null;
+        return "/barber-photos/" + id + "/" + photos;
     }
 }
