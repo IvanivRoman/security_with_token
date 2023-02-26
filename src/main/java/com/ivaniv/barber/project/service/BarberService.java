@@ -63,6 +63,10 @@ public class BarberService {
         return barberRepository.findById(id).orElseThrow();
     }
 
+    public Barber getBarber(String email) {
+        return barberRepository.findByEmail(email).orElseThrow();
+    }
+
     @Transactional
     public void deleteBarber(Integer id) {
         Barber barber = barberRepository.findById(id)

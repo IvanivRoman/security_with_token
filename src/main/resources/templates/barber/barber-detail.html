@@ -22,8 +22,8 @@
                         <strong>Про себе:</strong> <span th:text="${barber.aboutMe}"></span>
                     </p>
                     <div class="btn-group">
-                        <a th:href="'/barbers/' + ${barber.id} + '/edit'" class="btn btn-warning">Редагувати</a>
-                        <form th:action="'/barbers/' + ${barber.id} + '/delete'" method="post">
+                        <a th:href="'/barber-shop/barbers/' + ${barber.id} + '/edit'" class="btn btn-warning">Редагувати</a>
+                        <form th:action="'/barber-shop/barbers/' + ${barber.id} + '/delete'" method="post">
                             <button class="btn btn-danger" type="submit">Видалити</button>
                         </form>
                     </div>

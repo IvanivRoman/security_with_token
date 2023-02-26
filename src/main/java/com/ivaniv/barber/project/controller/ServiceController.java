@@ -35,7 +35,7 @@ public class ServiceController {
         service.setService_name(serviceName);
         service.setPrice(price);
         serviceService.createService(service);
-        return "redirect:/services";
+        return "redirect:/barber-shop/services";
     }
 
     @GetMapping("/services/{id}")
@@ -59,12 +59,12 @@ public class ServiceController {
         service.setService_name(service_name);
         service.setPrice(price);
         serviceService.createService(service);
-        return "redirect:/services";
+        return "redirect:/barber-shop/services";
     }
 
     @PostMapping("/services/{id}/delete")
     public String serviceDelete(@PathVariable(value = "id") Integer id, Model model) {
         serviceService.deleteService(id);
-        return "redirect:/services";
+        return "redirect:/barber-shop/services";
     }
 }

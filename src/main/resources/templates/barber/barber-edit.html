@@ -45,17 +45,18 @@
 <header th:insert="~{blocks/header :: header}"></header>
 <div class="container mt-5 mb-5">
     <h1>Редагування інформації про перукаря</h1>
-    <div th:each="bar : ${barber}">
+    <div >
         <form method="post" enctype="multipart/form-data">
             <div style="width: 50%; height: 305px; float: left;">
-                <input type="text" th:value="${bar.name}" name="name" placeholder="Введіть ім'я" class="form-control"><br>
-                <textarea type="text" th:text="${bar.aboutMe}" name="aboutMe" placeholder="Короткий опис про себе..." class="form-control"></textarea><br>
+                <input type="text" th:value="${barber.name}" name="name" placeholder="Введіть ім'я" class="form-control"><br>
+                <input type="hidden" th:value="${barber.email}" name="email" class="form-control"><br>
+                <textarea type="text" th:text="${barber.aboutMe}" name="aboutMe" placeholder="Короткий опис про себе..." class="form-control"></textarea><br>
                 <label>Змінити фото</label>
                 <input type="file" name="image" accept="image/png, image/jpeg" class="form-control"><br>
                 <button type="submit" class="btn btn-success">Обновити</button>
             </div>
             <div style="margin-left: 50%; height: 305px;">
-                <img th:src="@{${bar.photosImagePath}}" width="250" height="300"/>
+                <img th:src="@{${barber.photosImagePath}}" width="250" height="300"/>
             </div>
 
         </form>

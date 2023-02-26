@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Personal Cabinet</title>
+    <!-- Add Bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row mt-5">
+        <!-- Left column with barber's name and photo -->
+        <div class="col-md-4">
+<!--            <img th:src="@{/images/{photo}(photo=${barber.photo})}" class="img-fluid rounded-circle mb-3" width="200" height="200">-->
+            <h3 th:text="${barber.name}"></h3>
+        </div>
+        <!-- Right column with logout button and records table -->
+        <div class="col-md-8">
+            <div class="float-right mb-3">
+<!--                <form action="/barber-shop/logout" method="post">-->
+<!--                    <input type="submit" value="Вийти" class="btn btn-secondary">-->
+<!--                </form>-->
+                <a href="/barber-shop/logout" class="btn btn-secondary">Вийти</a>
+            </div>
+            <h4>Your Records:</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="record : ${barber.records}">
+                    <td th:text="${record.date}"></td>
+                    <td th:text="${record.hour}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

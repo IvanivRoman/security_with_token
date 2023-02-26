@@ -1,5 +1,8 @@
 package com.ivaniv.barber.project.controller;
 
+import com.ivaniv.barber.project.auth.AuthenticationController;
+import com.ivaniv.barber.project.auth.AuthenticationService;
+import com.ivaniv.barber.project.auth.RegisterRequest;
 import com.ivaniv.barber.project.config.FileUpload;
 import com.ivaniv.barber.project.entity.Barber;
 import com.ivaniv.barber.project.repository.BarberRepository;
@@ -14,12 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 
 @Controller
 @RequestMapping("/barber-shop")
 public class BarberController {
-
+    @Autowired
+    private AuthenticationService authenticationService;
     @Autowired
     private BarberRepository barberRepository;
     @Autowired
@@ -39,17 +44,18 @@ public class BarberController {
 
     @PostMapping("/barbers/add")
     public String addBarber(@RequestParam String name, @RequestParam String email, @RequestParam String password,
-                            @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException {
-        Barber barber = new Barber();
-        barber.setName(name);
-        barber.setEmail(email);
-        barber.setPassword(password);
+                             Model model) throws IOException {
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        barber.setPhotos(fileName);
-        Barber res = barberService.createBarber(barber);
-        String uploadDir = "barber-photos/" + res.getId();
-        FileUpload.saveFile(uploadDir, fileName, multipartFile);
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//        barber.setPhotos(fileName);
+        RegisterRequest request = new RegisterRequest();
+        request.setName(name);
+        request.setEmail(email);
+        request.setPassword(password);
+        authenticationService.register(request);
+        System.out.println("hi man");
+//        String uploadDir = "barber-photos/" + res.getId();
+//        FileUpload.saveFile(uploadDir, fileName, multipartFile);
 
         return "redirect:/barber-shop/barbers";
     }
@@ -59,18 +65,13 @@ public class BarberController {
         if(!barberRepository.existsById(id))
             return "redirect:/";
 
-//        Optional<Barber> barber = barberRepository.findById(id);
         Barber barber = barberService.getBarber(id);
-//        List<Barber> res = new ArrayList<>();
-//        barber.ifPresent(res::add);
         model.addAttribute("barber", barber);
         return "barber/barber-detail";
     }
 
     @GetMapping("/barbers/{id}/edit")
     public String barberEdit(@PathVariable(value = "id") int id,  Model model) {
-        if(!barberRepository.existsById(id))
-            return "redirect:/";
 
         Barber barber = barberService.getBarber(id);
         model.addAttribute("barber", barber);
@@ -90,7 +91,7 @@ public class BarberController {
         String uploadDir = "barber-photos/" + res.getId();
         FileUtils.deleteDirectory(new File(uploadDir));
         FileUpload.saveFile(uploadDir, fileName, multipartFile);
-        return "redirect:/barbers";
+        return "redirect:/barber-shop/barbers";
     }
 
     @PostMapping("/barbers/{id}/delete")
@@ -98,6 +99,6 @@ public class BarberController {
         String uploadDir = "barber-photos/" + barberService.getBarber(id).getId();
         FileUtils.deleteDirectory(new File(uploadDir));
         barberService.deleteBarber(id);;
-        return "redirect:/barbers";
+        return "redirect:/barber-shop/barbers";
     }
 }
