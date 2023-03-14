@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Записатись онлайн</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<header th:insert="~{blocks/header :: header}"></header>
+
+<div class="container mt-5">
+    <form action="/barber-shop/p/order" method="post">
+        <h3>Виберіть фахівця</h3>
+        <div>
+            <select name="id" id="barbers" class="form-control">
+                <option class="form-select">-------</option>
+                <option th:each="bar: ${barbers}" th:text="${bar.name}" th:value="${bar.id}"
+                        class="form-select"></option>
+            </select>
+        </div>
+
+        <h3>Виберіть послугу</h3>
+        <div>
+            <table>
+                <tr th:each="service: ${services}">
+                    <td>
+                        <input type="checkbox" name="serv" th:value="${service.id}"/>
+                        <label th:text="${service.service_name}"></label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-success">Виберіть дату і час</button>
+    </form>
+</div>
+
+</body>
+</html>
+

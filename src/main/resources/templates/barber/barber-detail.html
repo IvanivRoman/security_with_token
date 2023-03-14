@@ -7,13 +7,21 @@
     <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 </head>
 <body>
-<header th:insert="~{blocks/header :: header}"></header>
+<!--<div th:insert="~{blocks/navbar :: navbar}"></div>-->
+<div th:switch="${role}">
+    <div th:case="'ADMIN'">
+        <div th:insert="~{blocks/navbar :: navbar}"></div>
+    </div>
+    <div th:case="'USER'">
+        <div th:insert="~{blocks/navbar-user :: navbar-user}"></div>
+    </div>
+</div>
 
 <div class="container mt-5">
     <div class="card mb-3">
         <div class="row g-0">
             <div class="col-md-4">
-                <img th:src="@{${barber.photosImagePath}}" class="img-fluid rounded-start" alt="Photo of the barber">
+                <img th:src="${barber.photos}" class="img-fluid rounded-start" alt="Photo of the barber">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -22,11 +30,20 @@
                         <strong>Про себе:</strong> <span th:text="${barber.aboutMe}"></span>
                     </p>
                     <div class="btn-group">
-                        <a th:href="'/barber-shop/barbers/' + ${barber.id} + '/edit'" class="btn btn-warning">Редагувати</a>
-                        <form th:action="'/barber-shop/barbers/' + ${barber.id} + '/delete'" method="post">
-                            <button class="btn btn-danger" type="submit">Видалити</button>
-                        </form>
+                        <a th:href="'/barber-shop/b/barbers/' + ${barber.id} + '/edit'" class="btn btn-warning">Редагувати</a>
+                        <div th:if="${role eq 'ADMIN'}">
+                            <form th:action="'/barber-shop/adm/barbers/' + ${barber.id} + '/delete'" method="post">
+                                <button class="btn btn-danger" type="submit">Видалити</button>
+                            </form>
+                        </div>
                     </div>
+
+                    <!--                    <div class="btn-group">-->
+<!--                        <a th:href="'/barber-shop/barbers/' + ${barber.id} + '/edit'" class="btn btn-warning">Редагувати</a>-->
+<!--                        <form th:action="'/barber-shop/barbers/' + ${barber.id} + '/delete'" method="post">-->
+<!--                            <button class="btn btn-danger" type="submit">Видалити</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

@@ -8,14 +8,14 @@
 
 </head>
 <body>
-<header th:insert="~{blocks/header :: header}"></header>
+<div th:insert="~{blocks/navbar :: navbar}"></div>
 
 <div class="container mt-5">
     <div class="alert alert-info mt-2">
         <h3 th:text="${service.service_name}"/>
         <p th:text="${service.price}"/>
-        <a th:href="'/barber-shop/services/' + ${service.id} + '/edit'" class="btn btn-warning">Редагувати</a><br><br>
-        <form th:action="'/barber-shop/services/' +  ${service.id} + '/delete'" method="post">
+        <a th:href="'/barber-shop/adm/services/' + ${service.id} + '/edit'" class="btn btn-warning">Редагувати</a><br><br>
+        <form th:action="'/barber-shop/adm/services/' +  ${service.id} + '/delete'" method="post">
             <button class="btn btn-warning" type="submit">Видалити</button>
         </form>
     </div>

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 </head>
 <body>
-<header th:insert="~{blocks/header :: header}"></header>
+<div th:insert="~{blocks/navbar :: navbar}"></div>
 
 <div class="container mt-5 mb-5">
     <h1>Додавання послуги</h1>
-    <form action="/barber-shop/services/add" method="post">
+    <form action="/barber-shop/adm/services/add" method="post">
         <div class="mb-3">
             <label for="serviceName" class="form-label">Назва послуги</label>
             <input type="text" class="form-control" id="serviceName" name="serviceName" placeholder="Введіть назву послуги" required />

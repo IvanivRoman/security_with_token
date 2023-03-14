@@ -2,20 +2,13 @@ package com.ivaniv.barber.project.controller;
 
 import com.ivaniv.barber.project.auth.AuthenticationRequest;
 import com.ivaniv.barber.project.auth.AuthenticationService;
-import com.ivaniv.barber.project.config.LogoutService;
 import com.ivaniv.barber.project.entity.Barber;
+import com.ivaniv.barber.project.entity.Role;
 import com.ivaniv.barber.project.service.BarberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/barber-shop")
@@ -25,28 +18,32 @@ public class PersonalCabinetController {
     private AuthenticationService authenticationService;
 
     @Autowired
-    private LogoutService logoutService;
-
-    @Autowired
     BarberService barberService;
 
-    @GetMapping("/login")
+    @GetMapping("/p/login")
     public String loginPage() {
-     return "cabinet/login";
+        return "cabinet/login";
     }
 
-    @PostMapping("/login")
-    public String personalCabinet(@RequestParam String email, @RequestParam String password, Model model) {
+    @PostMapping("/p/login")
+    public String login(@RequestParam String email, @RequestParam String password, Model model) {
         authenticationService.authenticate(new AuthenticationRequest(email, password));
         Barber barber = barberService.getBarber(email);
+        model.addAttribute("barber", barber);
+        if (barber.getRole() == Role.ADMIN) {
+            return "redirect:/barber-shop/adm";
+        }
+        return "redirect:/barber-shop/b/" + barber.getId();
+    }
+    @GetMapping("/b/{id}")
+    public String barberCabinet(@PathVariable int id, Model model) {
+        Barber barber = barberService.getBarber(id);
         model.addAttribute("barber", barber);
         return "cabinet/cabinet";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response,
-                         @AuthenticationPrincipal Authentication authentication) {
-        logoutService.logout(request, response, authentication);
-        return "home";
+    @GetMapping("/adm")
+    public String adminCabinet() {
+        return "cabinet/admin";
     }
 }

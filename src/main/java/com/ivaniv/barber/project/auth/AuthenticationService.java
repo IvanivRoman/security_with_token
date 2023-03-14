@@ -30,6 +30,10 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         var savedUser = repository.save(user);
+        if (savedUser.getId() == 1) {
+            user.setRole(Role.ADMIN);
+            repository.save(user);
+        }
         var jwtToken = jwtService.generateToken(user);
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
@@ -38,6 +42,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        System.out.println("from authenticate");
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

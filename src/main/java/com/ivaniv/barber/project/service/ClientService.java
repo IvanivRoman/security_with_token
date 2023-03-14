@@ -50,6 +50,9 @@ public class ClientService {
     public Client getClient(Integer id) {
         return clientRepository.findById(id).orElseThrow();
     }
+    public Client getClient(String email) {
+        return clientRepository.findClientByEmail(email);
+    }
 
     public void deleteClient(Integer id) {
         Client entity = clientRepository.findById(id).orElseThrow();

@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sound.midi.Receiver;
-import java.util.List;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +60,12 @@ public class BarberService {
     }
 
     public List<Barber> getBarbers() {
-        return barberRepository.findAll();
+        List<Barber> barbers = barberRepository.findAll();
+        for (int i = 0; i < barbers.size(); i++) {
+            if(barbers.get(i).getId() == 1)
+                barbers.remove(i);
+        }
+        return barbers;
     }
 
     public Barber getBarber(Integer id) {
@@ -78,6 +87,46 @@ public class BarberService {
         }
 
         barberRepository.delete(barber);
+    }
+
+    public Map<Date, List<Time>> getAvailableRecords (Integer barberId) {
+        Map<Date, List<Time>> openRecords = new TreeMap<>();
+        Barber barber = barberRepository.findById(barberId).orElseThrow();
+
+        // Define the range of dates to check for availability
+        LocalDate today = LocalDate.now();
+        LocalDate endDate = today.plusDays(14);
+
+        // Iterate through the range of dates (excluding today's date)
+        for (LocalDate date = today.plusDays(1); !date.isAfter(endDate); date = date.plusDays(1)) {
+            List<Time> availableTimes = getAvailableTimePerDate(barber, Date.valueOf(date));
+            openRecords.put(Date.valueOf(date), availableTimes);
+        }
+
+        return openRecords;
+    }
+
+
+    public List<Time> getAvailableTimePerDate(Barber barber, Date date) {
+        // Define the start and end times of the day
+        LocalTime start = LocalTime.of(9, 0);
+        LocalTime end = LocalTime.of(17, 0);
+
+        // Create a list of all possible time slots for the day
+        List<Time> allTimes = new ArrayList<>();
+        for (LocalTime time = start; !time.isAfter(end); time = time.plusMinutes(60)) {
+            allTimes.add(Time.valueOf(time));
+        }
+
+        // Get the records for the given date
+        List<Records> recordsPerDay = recordRepository.getRecordsByBarberAndDate(barber, date);
+
+        // Remove any time slots that are already taken
+        for (Records record : recordsPerDay) {
+            allTimes.remove(record.getHour());
+        }
+
+        return allTimes;
     }
 
 }

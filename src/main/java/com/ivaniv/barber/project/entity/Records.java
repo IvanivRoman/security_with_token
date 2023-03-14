@@ -22,10 +22,10 @@ public class Records {
     private Date date;
 
     @Column
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(pattern = "HH:mm")
     private Time hour;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "records_services",
             joinColumns = @JoinColumn(name = "record_id"),

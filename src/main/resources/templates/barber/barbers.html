@@ -16,10 +16,9 @@
     <div class="row">
         <div th:each="bar : ${barbers}" class="col-md-6 col-lg-4">
             <div class="card mb-4">
-                <img th:src="@{${bar.photosImagePath}}" class="card-img-top" alt="barber image" width="125" height="150">
+                <img th:src="${bar.photos}" class="card-img-top" alt="barber image" width="125" height="150">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${bar.name}"></h5>
-                    <a th:href="'/barber-shop/barbers/' + ${bar.id}" class="btn btn-warning mt-3">Детальніше</a>
                 </div>
             </div>
         </div>

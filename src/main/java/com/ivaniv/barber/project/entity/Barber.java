@@ -2,6 +2,8 @@ package com.ivaniv.barber.project.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,8 +26,12 @@ public class Barber implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotBlank(message = "Введіть ім'я")
     private String name;
+    @Email
+    @NotBlank(message = "Введіть коректну електронну скриньку")
     private String email;
+    @NotBlank(message = "Password is required")
     private String password;
 
     private String aboutMe;

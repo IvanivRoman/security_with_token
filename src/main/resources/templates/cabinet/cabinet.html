@@ -1,40 +1,115 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">-->
+<!--<head>-->
+<!--    <title>Personal Cabinet</title>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
+<!--    &lt;!&ndash; Add Bootstrap stylesheet &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <script type="text/javascript" src="/cabinet.js"></script>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="row mt-5">-->
+<!--        &lt;!&ndash; Left column with barber's name and photo &ndash;&gt;-->
+<!--        <div class="col-md-4">-->
+<!--            <img th:src="${barber.photos}" class="img-fluid rounded-circle mb-3" width="200" height="200">-->
+<!--            <h3 th:text="${barber.name}"></h3>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Right column with logout button and records table &ndash;&gt;-->
+<!--        <div class="col-md-8">-->
+<!--            <div class="float-right mb-3">-->
+<!--                <a href="/barber-shop/logout" class="btn btn-secondary">Статистика</a>-->
+<!--                <a href="/barber-shop/barbers/edit" class="btn btn-secondary">Особисті дані</a>-->
+<!--                                <form th:action="@{/barber-shop/logout}" method="post">-->
+<!--                                    <input type="submit" value="Вийти" class="btn btn-secondary">-->
+<!--                                </form>-->
+<!--&lt;!&ndash;                <a href="/barber-shop/logout" class="btn btn-secondary">Вийти</a>&ndash;&gt;-->
+<!--            </div>-->
+<!--            <h4>Ваші записи:</h4>-->
+<!--            <table class="table">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th id="date-header" sort-order="asc">Дата</th>-->
+<!--                    <th id="hour-header" sort-order="asc">Година</th>-->
+<!--                    <th id="client-header" sort-order="asc">Клієнт</th>-->
+<!--                    <th id="phone-header" sort-order="asc">Телефон</th>-->
+<!--                    <th>Послуги</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr th:each="record : ${barber.records}">-->
+<!--                    <td th:text="${record.date}"></td>-->
+<!--                    <td th:text="${record.hour}"></td>-->
+<!--                    <td th:text="${record.client.name}"></td>-->
+<!--                    <td th:text="${record.client.phone}"></td>-->
+<!--                    <td>-->
+<!--                        <ul>-->
+<!--                            <li th:each="service : ${record.services}"-->
+<!--                                th:text="${service.service_name + ' ($' + service.price + ')'}"></li>-->
+<!--                        </ul>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Personal Cabinet</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Add Bootstrap stylesheet -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/cabinet.js"></script>
+
 </head>
 <body>
 <div class="container">
     <div class="row mt-5">
         <!-- Left column with barber's name and photo -->
         <div class="col-md-4">
-<!--            <img th:src="@{/images/{photo}(photo=${barber.photo})}" class="img-fluid rounded-circle mb-3" width="200" height="200">-->
+            <img th:src="${barber.photos}" class="img-fluid rounded-circle mb-3" width="200" height="200">
             <h3 th:text="${barber.name}"></h3>
+            <p th:text="${barber.aboutMe}"></p>
         </div>
         <!-- Right column with logout button and records table -->
         <div class="col-md-8">
-            <div class="float-right mb-3">
-<!--                <form action="/barber-shop/logout" method="post">-->
-<!--                    <input type="submit" value="Вийти" class="btn btn-secondary">-->
-<!--                </form>-->
-                <a href="/barber-shop/logout" class="btn btn-secondary">Вийти</a>
-            </div>
-            <h4>Your Records:</h4>
+            <div th:insert="~{blocks/navbar-user :: navbar-user}"></div>
+            <h4>Ваші записи:</h4>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th id="date-header" sort-order="asc">Дата</th>
+                    <th id="hour-header" sort-order="asc">Година</th>
+                    <th id="client-header" sort-order="asc">Клієнт</th>
+                    <th id="phone-header" sort-order="asc">Телефон</th>
+                    <th>Послуги</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="record : ${barber.records}">
                     <td th:text="${record.date}"></td>
                     <td th:text="${record.hour}"></td>
+                    <td th:text="${record.client.name}"></td>
+                    <td th:text="${record.client.phone}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="service : ${record.services}"
+                                th:text="${service.service_name + ' ($' + service.price + ')'}"></li>
+                        </ul>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -42,9 +117,6 @@
     </div>
 </div>
 
-<!-- Add Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </body>
 </html>

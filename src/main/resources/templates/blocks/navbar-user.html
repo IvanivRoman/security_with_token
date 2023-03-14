@@ -1,0 +1,12 @@
+<div th:fragment="navbar-user">
+    <div class="d-flex justify-content-end mb-3">
+        <div class="btn-group" role="group">
+            <a href="/barber-shop/logout" class="btn btn-secondary">Статистика</a>
+            <a th:href="'/barber-shop/b/' + ${barber.id}" class="btn btn-secondary">Записи</a>
+            <a th:href="'/barber-shop/b/barbers/' + ${barber.id}" class="btn btn-secondary">Особисті дані</a>
+        </div>
+        <form th:action="@{/barber-shop/logout}" method="post">
+            <button type="submit" class="btn btn-secondary">Вийти</button>
+        </form>
+    </div>
+</div>
